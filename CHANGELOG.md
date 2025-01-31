@@ -1,5 +1,9 @@
 # Django CTE change log
 
+## 1.3.3-openfield-fork - 2025-01-31
+
+- Change `WITH RECURSIVE` to `WITH` to support our niche use case.
+
 ## 1.3.3 - 2024-06-07
 
 - Handle empty result sets in CTEs ([#92](https://github.com/dimagi/django-cte/pull/92)).

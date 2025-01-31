@@ -144,9 +144,15 @@ class CTECompiler(object):
             setattr(query, explain_attribute, None)
 
         if ctes:
-            # Always use WITH RECURSIVE
-            # https://www.postgresql.org/message-id/13122.1339829536%40sss.pgh.pa.us
-            sql.extend(["WITH RECURSIVE", ", ".join(ctes)])
+            # OpenField fork (2025/01/31):
+            #   We require the ability to generate non-recursive CTEs where the name
+            #   of the CTE is the same as the name of a table referred to by the CTE,
+            #   so we have changed this line to use WITH instead of WITH RECURSIVE.
+            #   Note that this means our fork cannot handle recursive CTEs.
+            # Original comment:
+            #   Always use WITH RECURSIVE
+            #   https://www.postgresql.org/message-id/13122.1339829536%40sss.pgh.pa.us
+            sql.extend(["WITH", ", ".join(ctes)])
         base_sql, base_params = as_sql()
 
         if explain_query_or_info:
